@@ -1,0 +1,29 @@
+services:
+  clickhouse:
+    image: clickhouse/clickhouse-server:24.8
+    container_name: myt_clickhouse
+    ports:
+      - "8123:8123"  # HTTP
+      - "9000:9000"  # Native
+    volumes:
+      - ./clickhouse/init:/docker-entrypoint-initdb.d
+    environment:
+      - CLICKHOUSE_DB=myt_metrics
+    restart: unless-stopped
+
+  relay:
+    build: ./relay
+    container_name: myt_relay
+    environment:
+      - CLICKHOUSE_URL=http://clickhouse:8123
+      - CLICKHOUSE_USER=myt                
+      - CLICKHOUSE_PASSWORD=myt_pw         
+      - CLICKHOUSE_DATABASE=myt_metrics
+      - CLICKHOUSE_PREFIX=myt
+      - RELAY_PORT=4001
+      - CORS_ALLOW_ORIGIN=*
+    ports:
+      - "4001:4001"
+    depends_on:
+      - clickhouse
+    restart: unless-stopped
