@@ -13,7 +13,7 @@ const {
 } = process.env;
 
 const ch = createClient({
-  host: CLICKHOUSE_URL,
+  url: CLICKHOUSE_URL,
   username: CLICKHOUSE_USER,
   password: CLICKHOUSE_PASSWORD,
   database: CLICKHOUSE_DATABASE,
