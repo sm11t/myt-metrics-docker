@@ -23,7 +23,7 @@ services:
       - RELAY_PORT=4001
       - CORS_ALLOW_ORIGIN=*
     ports:
-      - "4001:4001"
+      - "8787:4001"
     depends_on:
       - clickhouse
     restart: unless-stopped
